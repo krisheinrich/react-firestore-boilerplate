@@ -11,6 +11,7 @@ const SignInPage = () => (
   <div>
     <h1>Sign In</h1>
     <SignInForm />
+    <SignInGoogle />
     <PasswordForgetLink />
     <SignUpLink />
   </div>
@@ -80,11 +81,56 @@ class _SignInForm extends Component {
   }
 }
 
+class _SignInGoogle extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { error: null };
+  }
+
+  onSubmit = e => {
+    e.preventDefault();
+
+    this.props.firebase
+      .signInWithGoogle()
+      .then(socialAuthUser => {
+        // Create a user in realtime db too
+        return this.props.firebase
+          .user(socialAuthUser.user.uid)
+          .set({
+            username: socialAuthUser.user.displayName,
+            email: socialAuthUser.user.email,
+            roles: {}
+          });
+      })
+      .then(() => {
+        this.setState({ error: null });
+        this.props.history.push(ROUTES.HOME);
+      })
+      .catch(error => this.setState({ error }));
+  };
+
+  render() {
+    const { error } = this.state;
+    return (
+      <form onSubmit={this.onSubmit}>
+        <button type="submit">Sign In with Google</button>
+        { error && <p>{ error.message }</p> }
+      </form>
+    );
+  }
+}
+
 const SignInForm = compose(
   withRouter,
   withFirebase,
 )(_SignInForm);
 
+const SignInGoogle = compose(
+  withRouter,
+  withFirebase,
+)(_SignInGoogle);
+
 export default SignInPage;
 
-export { SignInForm };
+export { SignInForm, SignInGoogle };

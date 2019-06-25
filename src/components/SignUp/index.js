@@ -92,7 +92,7 @@ class _SignUpForm extends Component {
           Sign Up
         </button>
 
-        { error && <p>{error.message}</p> }
+        { error && <p>{ error.message }</p> }
       </form>
     );
   }

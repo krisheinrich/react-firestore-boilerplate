@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { compose } from 'recompose';
 
-import { withAuthorization } from '../Session';
+import { withAuthorization, withEmailVerification } from '../Session';
 import * as ROLES from '../../constants/roles';
 
 class AdminPage extends Component {
@@ -21,12 +22,12 @@ class AdminPage extends Component {
 
       const usersList = Object.keys(usersObject).map(key => ({
         ...usersObject[key],
-        uid: key,
+        uid: key
       }));
 
       this.setState({
-        users: usersList,
         loading: false,
+        users: usersList
       });
     });
   }
@@ -55,13 +56,13 @@ const UserList = ({ users }) => (
     { users.map(user => (
       <li key={user.uid}>
         <span>
-          <strong>ID:</strong> {user.uid}
+          <strong>ID:</strong> { user.uid }
         </span>
         <span>
-          <strong>E-Mail:</strong> {user.email}
+          <strong>Email:</strong> { user.email }
         </span>
         <span>
-          <strong>Username:</strong> {user.username}
+          <strong>Username:</strong> { user.username }
         </span>
         <span>
           <strong>Role(s):</strong>
@@ -77,4 +78,7 @@ const UserList = ({ users }) => (
 
 const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN];
 
-export default withAuthorization(condition)(AdminPage);
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition)
+)(AdminPage);

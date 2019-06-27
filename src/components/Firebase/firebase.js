@@ -41,6 +41,11 @@ class Firebase {
   updatePassword = newPassword =>
     this.auth.currentUser.updatePassword(newPassword);
 
+  sendEmailVerification = () =>
+    this.auth.currentUser.sendEmailVerification({
+      url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT
+    });
+
   // Merge auth and DB user API
   onAuthUserListener = (next, fallback) =>
     this.auth.onAuthStateChanged(authUser => {
@@ -57,6 +62,8 @@ class Firebase {
             authUser = {
               uid: authUser.uid,
               email: authUser.email,
+              emailVerified: authUser.emailVerified,
+              providerData: authUser.providerData,
               ...dbUser,
             };
             next(authUser);

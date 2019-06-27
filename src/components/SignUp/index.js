@@ -61,7 +61,10 @@ class _SignUpForm extends Component {
             roles
           });
       })
-      .then(authUser => {
+      .then(() => {
+        return this.props.firebase.sendEmailVerification();
+      })
+      .then(() => {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.HOME);
       })

@@ -105,13 +105,23 @@ class _SignInGoogle extends Component {
     this.props.firebase
       .signInWithGoogle()
       .then(socialAuthUser => {
-        // Create a user in realtime db too
+        // Create a user in db too
         return this.props.firebase
           .user(socialAuthUser.user.uid)
-          .set({
-            username: socialAuthUser.user.displayName,
-            email: socialAuthUser.user.email,
-            roles: {}
+          .get()
+          .then(snapshot => {
+            // If user already exists, update the email/username
+            // otherwise create a new user doc
+            return snapshot.exists
+            ? snapshot.ref.update({
+              username: socialAuthUser.user.displayName || snapshot.data().username,
+              email: socialAuthUser.user.email
+            })
+            : snapshot.ref.set({
+              username: socialAuthUser.user.displayName,
+              email: socialAuthUser.user.email,
+              roles: {}
+            });
           });
       })
       .then(() => {

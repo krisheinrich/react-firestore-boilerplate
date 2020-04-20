@@ -15,7 +15,7 @@ const SIGN_IN_METHODS = [
   },
   {
     id: 'google.com',
-    provider: 'googleProvider',
+    provider: 'googleProvider'
   }
 ];
 

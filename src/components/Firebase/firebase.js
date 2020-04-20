@@ -1,6 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
-import 'firebase/database';
+import 'firebase/firestore';
 
 const EXPECTED_VARS = [
   'REACT_APP_API_KEY',
@@ -35,7 +35,7 @@ class Firebase {
 
     this.emailAuthProvider = app.auth.EmailAuthProvider;
     this.auth = app.auth();
-    this.db = app.database();
+    this.db = app.firestore();
 
     this.googleProvider = new app.auth.GoogleAuthProvider();
   }
@@ -68,9 +68,9 @@ class Firebase {
     this.auth.onAuthStateChanged(authUser => {
       if (authUser) {
         this.user(authUser.uid)
-          .once('value')
+          .get()
           .then(snapshot => {
-            const dbUser = snapshot.val();
+            const dbUser = snapshot.exists ? snapshot.data() : {};
 
             if (!dbUser.roles) {
               dbUser.roles = {};
@@ -92,9 +92,9 @@ class Firebase {
 
   // User API
 
-  user = uid => this.db.ref(`users/${uid}`);
+  user = uid => this.db.collection('users').doc(uid);
 
-  users = () => this.db.ref('users');
+  users = () => this.db.collection('users');
 }
 
 export default Firebase;

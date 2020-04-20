@@ -38,24 +38,21 @@ class _UserItem extends Component {
 
     this.props.firebase
       .user(this.props.match.params.id)
-      .on('value', snapshot => {
-        let user = snapshot.val();
+      .get()
+      .then(snapshot => {
+        let user = snapshot.data();
         user.uid = user.uid || this.props.match.params.id;
         this.setState({
           user: user,
           loading: false
         });
-      });
-  }
-
-  componentWillUnmount() {
-    this.props.firebase.user(this.props.match.params.id).off();
+      })
+      .catch(err => console.error(err));
   }
 
   onSendPasswordResetEmail = () => {
     this.props.firebase.resetPassword(this.state.user.email);
   };
-
 
   render() {
     const { user, loading } = this.state;
@@ -87,8 +84,6 @@ class _UserItem extends Component {
   }
 }
 
-
-
 class _UserList extends Component {
   constructor(props) {
     super(props);
@@ -102,23 +97,19 @@ class _UserList extends Component {
   componentDidMount() {
     this.setState({ loading: true });
 
-    this.props.firebase.users().on('value', snapshot => {
-      const usersObject = snapshot.val();
+    this.props.firebase.users()
+      .get()
+      .then(snapshot => {
+        const users = [];
+        snapshot.forEach(doc => {
+          users.push({ uid: doc.id, ...doc.data() });
+        });
 
-      const usersList = Object.keys(usersObject).map(key => ({
-        ...usersObject[key],
-        uid: key
-      }));
-
-      this.setState({
-        loading: false,
-        users: usersList
+        this.setState({
+          loading: false,
+          users
+        });
       });
-    });
-  }
-
-  componentWillUnmount() {
-    this.props.firebase.users().off();
   }
 
   render() {
@@ -152,7 +143,6 @@ class _UserList extends Component {
     );
   }
 }
-
 
 const UserItem = withFirebase(_UserItem);
 const UserList = withFirebase(_UserList);

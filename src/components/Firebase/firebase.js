@@ -2,7 +2,6 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
-// Modify this list as needed
 const EXPECTED_VARS = [
   'REACT_APP_API_KEY',
   'REACT_APP_AUTH_DOMAIN',
@@ -10,7 +9,8 @@ const EXPECTED_VARS = [
   'REACT_APP_PROJECT_ID',
   'REACT_APP_STORAGE_BUCKET',
   'REACT_APP_MESSAGING_SENDER_ID',
-  'REACT_APP_APP_ID'
+  'REACT_APP_APP_ID',
+  'REACT_APP_CONFIRMATION_EMAIL_REDIRECT'
 ];
 
 for (const v of EXPECTED_VARS) {

@@ -1,3 +1,36 @@
+
+# How to Use React Firestore Boilerplate
+
+## Step 1 - Create a New Repo from this Template
+ - From this project's GitHub repo page, select 'Use this Template'
+ - Fill out the information for the new repo
+
+## Step 2 - Clone the New Repo
+ - Once the new GitHub repo has been created, clone the repo to your local machine
+
+## Step 3 - Install dependencies
+ - Navigate to the directory with your local repo and run `npm i` 
+
+## Step 4 - Configure Environment Variables
+ - Create a new Firebase project
+ - Add a `.env` file to the project root directory declaring environment variables with the following infomation from the Firebase project:
+    - `REACT_APP_API_KEY=`
+    - `REACT_APP_AUTH_DOMAIN=`
+    - `REACT_APP_DATABASE_URL=`
+    - `REACT_APP_PROJECT_ID=`
+    - `REACT_APP_STORAGE_BUCKET=`
+    - `REACT_APP_MESSAGING_SENDER_ID=`
+    - `REACT_APP_APP_ID=`
+    - `REACT_APP_CONFIRMATION_EMAIL_REDIRECT=`
+
+## Starting the Development Server
+ - Run `npm start` to launch the dev server 
+
+## Building the Project
+- Run `npm build` to create a production build of the project
+
+----------------
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

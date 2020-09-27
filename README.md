@@ -11,9 +11,17 @@
 ### Step 3 - Install dependencies
  - Navigate to the directory with your local repo and run `npm i` 
 
-### Step 4 - Configure Environment Variables
+### Step 4 - Configure Firebase Project
  - Create a new Firebase project
- - Add a `.env` file to the project root directory declaring environment variables with the following infomation from the Firebase project:
+    - Enable Google Analytics during creation if desired
+ - Enable your preferred sign-in method(s) from the Firebase console (Authetication section)
+    - The Sign-In page contains elements for both password-based and Google-based authentication strategies, and the Account page lets you control which strategies are enabled
+    - Remove any components according to the desired auth strategy for your app
+ - Register your project as a Web App to view the project config info
+ - (optional) Create your first Firestore collection from the Firebase console (Cloud Firestore section)
+
+### Step 4 - Configure Environment Variables
+- Add a `.env` file to the project root directory declaring the following environment variables using the infomation from the Firebase project config:
     - `REACT_APP_API_KEY=`
     - `REACT_APP_AUTH_DOMAIN=`
     - `REACT_APP_DATABASE_URL=`

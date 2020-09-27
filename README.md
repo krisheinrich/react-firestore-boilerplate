@@ -20,7 +20,7 @@
  - Register your project as a Web App to view the project config info
  - (optional) Create your first Firestore collection from the Firebase console (Cloud Firestore section)
 
-### Step 4 - Configure Environment Variables
+### Step 5 - Configure Environment Variables
 - Add a `.env` file to the project root directory declaring the following environment variables using the infomation from the Firebase project config:
     - `REACT_APP_API_KEY=`
     - `REACT_APP_AUTH_DOMAIN=`
